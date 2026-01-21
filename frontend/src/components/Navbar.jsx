@@ -112,38 +112,40 @@ const Navbar = () => {
           <img alt="menu" src={assets.menu_icon} />
         </button>
 
-        {/* Menu mobile - hiện khi showMenu = true */}
-        {showMenu && (
-          <div className="md:hidden top-0 right-0 bottom-0 z-20 fixed bg-white w-full h-0 overflow-hidden transition-all">
-            {/* Header của menu mobile với logo và nút đóng */}
-            <div className="flex justify-between items-center px-5 py-6">
-              <img alt="logo" className="w-36" src={assets.logo} />
-              <button
-                aria-label="đóng menu"
-                className="w-7 cursor-pointer"
-                onClick={() => setShowMenu(false)}
-                type="button"
-              >
-                <img alt="đóng" src={assets.cross_icon} />
-              </button>
-            </div>
-            {/* Danh sách liên kết điều hướng trong menu mobile */}
-            <ul className="flex flex-col items-center gap-2 mt-5 px-5 font-medium text-lg">
-              {navLinks.map((link) => (
-                <NavLink
-                  className={({ isActive }) => (isActive ? "active" : "")}
-                  key={link.name}
-                  onClick={() => setShowMenu(false)}
-                  to={link.path}
-                >
-                  <p className="inline-block px-4 py-2 rounded-full">
-                    {link.name}
-                  </p>
-                </NavLink>
-              ))}
-            </ul>
+        {/* Menu mobile - hiển thị dựa trên state showMenu */}
+        <div
+          className={`md:hidden ${
+            showMenu ? "fixed w-full" : "h-0 w-0"
+          } right-0 top-0 bottom-0 z-20 overflow-hidden bg-white transition-all`}
+        >
+          {/* Header của menu mobile với logo và nút đóng */}
+          <div className="flex justify-between items-center px-5 py-6">
+            <img alt="logo" className="w-36" src={assets.logo} />
+            <button
+              aria-label="đóng menu"
+              className="w-7 cursor-pointer"
+              onClick={() => setShowMenu(false)}
+              type="button"
+            >
+              <img alt="đóng" src={assets.cross_icon} />
+            </button>
           </div>
-        )}
+          {/* Danh sách liên kết điều hướng trong menu mobile */}
+          <ul className="flex flex-col items-center gap-2 mt-5 px-5 font-medium text-lg">
+            {navLinks.map((link) => (
+              <NavLink
+                className={({ isActive }) => (isActive ? "active" : "")}
+                key={link.name}
+                onClick={() => setShowMenu(false)}
+                to={link.path}
+              >
+                <p className="inline-block px-4 py-2 rounded-full">
+                  {link.name}
+                </p>
+              </NavLink>
+            ))}
+          </ul>
+        </div>
       </div>
     </div>
   );

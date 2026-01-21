@@ -20,7 +20,7 @@ const Doctors = () => {
   );
 
   // State quản lý hiển thị/ẩn bộ lọc trên mobile
-  const [showFilters, setShowFilters] = useState(false);
+  const [showFilter, setShowFilter] = useState(false);
 
   /**
    * Lọc danh sách bác sĩ theo chuyên khoa được chọn
@@ -73,17 +73,19 @@ const Doctors = () => {
       <div className="flex sm:flex-row flex-col items-start gap-5 mt-5">
         {/* Nút hiển thị bộ lọc trên mobile */}
         <button
-          className="sm:hidden px-3 py-1 border rounded text-sm transition-all"
-          onClick={() => setShowFilters(!showFilters)}
+          className={`sm:hidden px-3 py-1 border rounded text-sm transition-all ${
+            showFilter ? "bg-primary text-white" : ""
+          }`}
+          onClick={() => setShowFilter((prev) => !prev)}
           type="button"
         >
-          Bộ lọc
+          Filters
         </button>
 
         {/* Danh sách các chuyên khoa để lọc */}
         <div
           className={`flex-col gap-4 text-sm text-gray-600 ${
-            showFilters ? "flex" : "hidden sm:flex"
+            showFilter ? "flex" : "hidden sm:flex"
           }`}
         >
           {specialityData.map((item) => (
