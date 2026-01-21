@@ -157,7 +157,7 @@ export const doctors = [
     experience: "4 Năm",
     fees: 300000,
     image: doc5,
-    name: "Bác sĩ Hoàng Thị Hương",
+    name: "Bác sĩ Hoàng Thị Hà",
     speciality: "Bác sĩ thần kinh",
   },
   {

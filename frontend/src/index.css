@@ -3,9 +3,27 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary-500: #5f6fff;
+  --color-primary: #5f6fff;
 }
 
 * {
   font-family: "Inter", sans-serif;
+}
+
+.active hr {
+  display: block;
+}
+
+/* Ẩn scrollbar nhưng vẫn giữ chức năng scroll */
+.hide-scrollbar {
+  -ms-overflow-style: none; /* IE và Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari và Opera */
+}
+
+.grid-cols-auto {
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
 }
