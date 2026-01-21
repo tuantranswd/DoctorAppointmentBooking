@@ -127,7 +127,7 @@ export const doctors = [
     experience: "1 Năm",
     fees: 150000,
     image: doc3,
-    name: "Bác sĩ Lê Thị Mai",
+    name: "Bác sĩ Lê Văn Minh",
     speciality: "Bác sĩ da liễu",
   },
   {
@@ -163,7 +163,7 @@ export const doctors = [
   {
     _id: "doc6",
     about:
-      "Bác sĩ chuyên khoa thần kinh với chuyên môn sâu về chẩn đoán và điều trị các rối loạn thần kinh. Đặc biệt quan tâm đến các bệnh lý như đau dây thần kinh, bệnh lý cột sống cổ, yếu cơ và các vấn đề về trí nhớ.",
+      "Bác sĩ chuyên khoa tiêu hóa với chuyên môn sâu về chẩn đoán và điều trị các bệnh lý đường tiêu hóa. Đặc biệt quan tâm đến các bệnh lý như viêm loét dạ dày tá tràng, trào ngược dạ dày thực quản, hội chứng ruột kích thích và các rối loạn tiêu hóa khác.",
     address: {
       line1: "Số 67, Đường Điện Biên Phủ",
       line2: "Phường 17, Quận Bình Thạnh, TP. Hồ Chí Minh",
@@ -173,7 +173,7 @@ export const doctors = [
     fees: 280000,
     image: doc6,
     name: "Bác sĩ Đỗ Văn Cường",
-    speciality: "Bác sĩ thần kinh",
+    speciality: "Bác sĩ tiêu hóa",
   },
   {
     _id: "doc7",
@@ -202,7 +202,7 @@ export const doctors = [
     experience: "3 Năm",
     fees: 240000,
     image: doc8,
-    name: "Bác sĩ Ngô Thị Linh",
+    name: "Bác sĩ Ngô Văn Linh",
     speciality: "Bác sĩ sản phụ khoa",
   },
   {
@@ -253,7 +253,7 @@ export const doctors = [
   {
     _id: "doc12",
     about:
-      "Bác sĩ chuyên khoa thần kinh với nhiều năm nghiên cứu và điều trị các bệnh lý thần kinh. Chuyên về đột quỵ não, bệnh Parkinson, đau dây thần kinh tọa và các bệnh lý cơ xương khớp liên quan đến thần kinh.",
+      "Bác sĩ chuyên khoa tiêu hóa với nhiều năm nghiên cứu và điều trị các bệnh lý đường tiêu hóa. Chuyên về nội soi tiêu hóa, điều trị viêm gan, xơ gan, bệnh lý túi mật và các bệnh lý gan mật tiêu hóa phức tạp.",
     address: {
       line1: "Số 127, Đường 3/2",
       line2: "Phường 12, Quận 10, TP. Hồ Chí Minh",
@@ -263,7 +263,7 @@ export const doctors = [
     fees: 290000,
     image: doc12,
     name: "Bác sĩ Lý Văn Tuấn",
-    speciality: "Bác sĩ thần kinh",
+    speciality: "Bác sĩ tiêu hóa",
   },
   {
     _id: "doc13",
@@ -292,7 +292,7 @@ export const doctors = [
     experience: "3 Năm",
     fees: 260000,
     image: doc14,
-    name: "Bác sĩ Phan Thị Minh",
+    name: "Bác sĩ Phan Văn Minh",
     speciality: "Bác sĩ sản phụ khoa",
   },
   {

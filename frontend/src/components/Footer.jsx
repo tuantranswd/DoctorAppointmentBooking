@@ -7,7 +7,7 @@ import { assets } from "../assets/assets_frontend/assets";
  */
 const Footer = () => {
   return (
-    <div className="md:mx-10">
+    <div>
       {/* Container chính của footer với responsive margin */}
       {/* Grid layout chứa các phần thông tin của footer */}
       <div className="flex flex-col gap-14 sm:grid grid-cols-[3fr_1fr_1fr] my-10 mt-40 text-sm">

@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { doctors } from "../assets/assets_frontend/assets";
+import { useAppContext } from "../context/AppContext";
 
 /**
  * Component hiển thị danh sách 10 bác sĩ nổi bật
@@ -7,6 +7,8 @@ import { doctors } from "../assets/assets_frontend/assets";
  */
 const TopDoctors = () => {
   const navigate = useNavigate();
+  // Lấy dữ liệu bác sĩ từ Context thay vì import trực tiếp
+  const { doctors } = useAppContext();
 
   /**
    * Xử lý sự kiện click vào thẻ bác sĩ

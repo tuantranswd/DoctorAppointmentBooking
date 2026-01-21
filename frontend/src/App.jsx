@@ -12,10 +12,11 @@ import MyProfile from "./pages/MyProfile";
 
 function App() {
   return (
-    <div className="mx-4 sm:mx-[10%]">
+    <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-10">
       <Navbar />
       <Routes>
         <Route element={<Home />} path="/" />
+        <Route element={<Doctors />} path="/doctors" />
         <Route element={<Doctors />} path="/doctors/:speciality" />
         <Route element={<Contact />} path="/contact" />
         <Route element={<About />} path="/about" />
