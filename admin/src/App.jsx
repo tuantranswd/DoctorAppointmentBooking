@@ -1,7 +1,9 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Navbar from "./components/Navbar.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
+import Sidebar from "./components/Sidebar.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import Login from "./pages/Login.jsx";
 
@@ -39,7 +41,18 @@ function App() {
         <Route
           element={
             <ProtectedRoute>
-              <Dashboard />
+              <div className="bg-[#F8F9FD]">
+                {/* Navbar luôn ở trên cùng */}
+                <Navbar />
+
+                <div className="flex items-start">
+                  {/* Sidebar cố định bên trái */}
+                  <Sidebar />
+
+                  {/* Nội dung chính bên phải */}
+                  <Dashboard />
+                </div>
+              </div>
             </ProtectedRoute>
           }
           path="/dashboard"
