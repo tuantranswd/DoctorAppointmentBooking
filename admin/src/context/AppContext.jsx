@@ -1,9 +1,8 @@
 import { createContext, useContext } from "react";
-import { doctors, specialityData } from "../assets/assets_frontend/assets";
 
 /**
- * Context chứa dữ liệu và hàm tiện ích toàn cục cho ứng dụng
- * Bao gồm danh sách bác sĩ, chuyên khoa và hàm format tiền tệ
+ * Context chứa các hàm tiện ích dùng chung cho ứng dụng Admin
+ * Bao gồm: định dạng ngày tháng, tiền tệ
  */
 const AppContext = createContext();
 
@@ -38,7 +37,7 @@ const formatCurrency = (amount) => {
 
 /**
  * Hàm format ngày tháng thành định dạng tiếng Việt
- * Ví dụ: new Date() -> "Thứ Hai, 01/01/2024"
+ * Ví dụ: new Date() -> "Thứ Hai, 01 tháng 01 năm 2024"
  * @param {Date|number|string} date - Ngày cần format (Date object, timestamp, hoặc chuỗi ngày)
  * @param {Object} options - Tùy chọn format (mặc định: { dateStyle: 'full', timeStyle: undefined })
  * @returns {string} Chuỗi ngày đã được format theo định dạng tiếng Việt
@@ -61,23 +60,19 @@ const formatDate = (date, options = {}) => {
 
 /**
  * Provider component cho AppContext
- * Cung cấp dữ liệu và hàm tiện ích cho toàn bộ ứng dụng
+ * Cung cấp các hàm tiện ích cho toàn bộ ứng dụng Admin
  * @param {Object} props - Props của component
  * @param {React.ReactNode} props.children - Các component con
  */
 export const AppContextProvider = ({ children }) => {
   /**
    * Giá trị Context bao gồm:
-   * - doctors: Danh sách tất cả bác sĩ
-   * - specialityData: Danh sách các chuyên khoa
    * - formatCurrency: Hàm format tiền VND
    * - formatDate: Hàm format ngày tháng tiếng Việt
    */
   const value = {
-    doctors,
     formatCurrency,
     formatDate,
-    specialityData,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
