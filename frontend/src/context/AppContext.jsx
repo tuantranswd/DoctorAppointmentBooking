@@ -60,6 +60,7 @@ export const AppContextProvider = ({ children }) => {
   const [userData, setUserData] = useState({});
   const [doctors, setDoctors] = useState([]);
   const [myAppointments, setMyAppointments] = useState([]);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   // Hàm lấy danh sách bác sĩ từ API
   const getDoctorsData = useCallback(async () => {
@@ -130,7 +131,7 @@ export const AppContextProvider = ({ children }) => {
   };
 
   // Hàm lấy hồ sơ người dùng
-  const getUserProfile = async () => {
+  const getUserProfile = useCallback(async () => {
     try {
       const { data } = await axiosInstance.get("/api/user/get-profile");
       if (data.success) {
@@ -146,7 +147,7 @@ export const AppContextProvider = ({ children }) => {
         success: false,
       };
     }
-  };
+  }, []);
 
   // Hàm cập nhật hồ sơ người dùng
   const updateUserProfile = async (formData) => {
@@ -193,7 +194,7 @@ export const AppContextProvider = ({ children }) => {
   };
 
   // Hàm lấy danh sách lịch hẹn của tôi
-  const getMyAppointments = async () => {
+  const getMyAppointments = useCallback(async () => {
     try {
       const { data } = await axiosInstance.get("/api/user/my-appointments");
       if (data.success) {
@@ -209,7 +210,7 @@ export const AppContextProvider = ({ children }) => {
         success: false,
       };
     }
-  };
+  }, []);
 
   // Hàm hủy lịch hẹn
   const cancelAppointment = async (appointmentId) => {
@@ -233,6 +234,15 @@ export const AppContextProvider = ({ children }) => {
       };
     }
   };
+
+  // Khởi tạo token từ localStorage khi component mount
+  useEffect(() => {
+    const initToken = localStorage.getItem("token");
+    if (initToken) {
+      setToken(initToken);
+    }
+    setIsInitialized(true);
+  }, []);
 
   // Cấu hình Axios interceptor để tự động thêm header Authorization
   useEffect(() => {
@@ -262,6 +272,13 @@ export const AppContextProvider = ({ children }) => {
     fetchDoctors();
   }, [getDoctorsData]);
 
+  // Gọi getUserProfile khi token thay đổi (sau khi đăng nhập)
+  useEffect(() => {
+    if (token && isInitialized) {
+      getUserProfile();
+    }
+  }, [token, isInitialized, getUserProfile]);
+
   /**
    * Giá trị Context bao gồm:
    * - doctors: Danh sách tất cả bác sĩ từ API
@@ -271,6 +288,7 @@ export const AppContextProvider = ({ children }) => {
    * - token: JWT token
    * - userData: Thông tin người dùng hiện tại
    * - myAppointments: Danh sách lịch hẹn của người dùng
+   * - isInitialized: Trạng thái khởi tạo context
    * - getDoctorsData: Hàm lấy danh sách bác sĩ
    * - signupUser: Hàm đăng ký
    * - loginUser: Hàm đăng nhập
@@ -290,6 +308,7 @@ export const AppContextProvider = ({ children }) => {
     getDoctorsData,
     getMyAppointments,
     getUserProfile,
+    isInitialized,
     loginUser,
     logoutUser,
     myAppointments,
