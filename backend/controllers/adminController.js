@@ -174,4 +174,45 @@ const addDoctor = async (req, res) => {
   }
 };
 
-export { addDoctor, loginAdmin };
+// API lấy danh sách tất cả bác sĩ (All Doctors)
+const allDoctors = async (_req, res) => {
+  try {
+    const doctors = await doctorModel.find({}).select("-password");
+    res.json({
+      doctors,
+      message: "Lấy danh sách bác sĩ thành công",
+      success: true,
+    });
+  } catch (error) {
+    console.log(error);
+    res.json({
+      message: error.message,
+      success: false,
+    });
+  }
+};
+
+// API thay đổi trạng thái available của bác sĩ (Change Availability)
+const changeAvailability = async (req, res) => {
+  try {
+    const { docId } = req.body;
+
+    const docData = await doctorModel.findById(docId);
+    await doctorModel.findByIdAndUpdate(docId, {
+      available: !docData.available,
+    });
+
+    res.json({
+      message: "Trạng thái available đã được cập nhật",
+      success: true,
+    });
+  } catch (error) {
+    console.log(error);
+    res.json({
+      message: error.message,
+      success: false,
+    });
+  }
+};
+
+export { addDoctor, allDoctors, changeAvailability, loginAdmin };

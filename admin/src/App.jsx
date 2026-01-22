@@ -1,10 +1,13 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Outlet, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Navbar from "./components/Navbar.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import Sidebar from "./components/Sidebar.jsx";
+import AddDoctor from "./pages/AddDoctor.jsx";
+import AllAppointments from "./pages/AllAppointments.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
+import DoctorList from "./pages/DoctorList.jsx";
 import Login from "./pages/Login.jsx";
 
 /**
@@ -37,7 +40,7 @@ function App() {
         {/* Route đăng nhập - công khai */}
         <Route element={<Login />} path="/login" />
 
-        {/* Route dashboard - được bảo vệ bởi ProtectedRoute */}
+        {/* Routes được bảo vệ */}
         <Route
           element={
             <ProtectedRoute>
@@ -50,16 +53,28 @@ function App() {
                   <Sidebar />
 
                   {/* Nội dung chính bên phải */}
-                  <Dashboard />
+                  <Outlet />
                 </div>
               </div>
             </ProtectedRoute>
           }
-          path="/dashboard"
-        />
+          path="/"
+        >
+          {/* Route dashboard */}
+          <Route element={<Dashboard />} path="dashboard" />
 
-        {/* Route mặc định - chuyển hướng đến dashboard */}
-        <Route element={<Navigate replace to="/dashboard" />} path="/" />
+          {/* Route thêm bác sĩ */}
+          <Route element={<AddDoctor />} path="add-doctor" />
+
+          {/* Route danh sách bác sĩ */}
+          <Route element={<DoctorList />} path="doctors" />
+
+          {/* Route tất cả lịch hẹn */}
+          <Route element={<AllAppointments />} path="appointments" />
+
+          {/* Route mặc định - chuyển hướng đến dashboard */}
+          <Route element={<Navigate replace to="dashboard" />} index />
+        </Route>
 
         {/* Route không tồn tại - chuyển hướng đến dashboard */}
         <Route element={<Navigate replace to="/dashboard" />} path="*" />
