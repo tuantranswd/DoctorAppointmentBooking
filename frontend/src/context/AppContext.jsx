@@ -97,7 +97,7 @@ export const AppContextProvider = ({ children }) => {
   // Hàm đăng ký người dùng
   const signupUser = async (name, email, password) => {
     try {
-      const { data } = await axiosInstance.post("/api/user/register", {
+      const { data } = await axiosInstance.post("/api/user/signup", {
         email,
         name,
         password,
@@ -153,7 +153,7 @@ export const AppContextProvider = ({ children }) => {
   // Hàm lấy hồ sơ người dùng
   const getUserProfile = async () => {
     try {
-      const { data } = await axiosInstance.get("/api/user/profile");
+      const { data } = await axiosInstance.get("/api/user/get-profile");
       if (data.success) {
         setUserData(data.user);
         return { success: true };

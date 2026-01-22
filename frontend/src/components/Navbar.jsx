@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { assets } from "../assets/assets_frontend/assets";
+import { useAppContext } from "../context/AppContext";
 
 const Navbar = () => {
-  // State quản lý trạng thái đăng nhập của người dùng
-  const [token, setToken] = useState(true);
+  // Sử dụng Context để lấy token và userData
+  const { token, userData, logoutUser } = useAppContext();
   // State quản lý hiển thị menu trên thiết bị di động
   const [showMenu, setShowMenu] = useState(false);
   // Hook điều hướng trang
@@ -57,7 +59,7 @@ const Navbar = () => {
             <img
               alt="ảnh đại diện"
               className="rounded-full w-8"
-              src={assets.profile_pic}
+              src={userData?.image || assets.profile_pic}
             />
             {/* Icon mũi tên dropdown */}
             <img alt="dropdown" className="w-2.5" src={assets.dropdown_icon} />
@@ -80,10 +82,13 @@ const Navbar = () => {
                 >
                   Lịch hẹn của tôi
                 </button>
-                {/* Tùy chọn: Đăng xuất - xóa token để chuyển về trạng thái chưa đăng nhập */}
+                {/* Tùy chọn: Đăng xuất - gọi hàm logoutUser từ Context */}
                 <button
                   className="hover:text-primary text-left cursor-pointer"
-                  onClick={() => setToken(false)}
+                  onClick={() => {
+                    logoutUser();
+                    toast.success("Đã đăng xuất thành công");
+                  }}
                   type="button"
                 >
                   Đăng xuất

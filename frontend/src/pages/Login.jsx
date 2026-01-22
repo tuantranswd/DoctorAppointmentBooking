@@ -1,10 +1,16 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useAppContext } from "../context/AppContext";
 
 /**
  * Component Login - Trang đăng nhập và đăng ký
  * Cho phép người dùng chuyển đổi giữa chế độ đăng nhập và đăng ký
  */
 const Login = () => {
+  const navigate = useNavigate();
+  const { signupUser, loginUser } = useAppContext();
+
   // State quản lý chế độ hiện tại: "Sign Up" (Đăng ký) hoặc "Login" (Đăng nhập)
   const [state, setState] = useState("Sign Up");
 
@@ -14,6 +20,8 @@ const Login = () => {
   const [password, setPassword] = useState("");
   // State quản lý tên đầy đủ người dùng (chỉ hiển thị khi đăng ký)
   const [name, setName] = useState("");
+  // State quản lý trạng thái đang xử lý
+  const [isLoading, setIsLoading] = useState(false);
 
   /**
    * Hàm xử lý khi submit form
@@ -21,6 +29,29 @@ const Login = () => {
    */
   const onSubmitHandler = async (event) => {
     event.preventDefault();
+    setIsLoading(true);
+
+    try {
+      let result;
+      if (state === "Sign Up") {
+        result = await signupUser(name, email, password);
+      } else {
+        result = await loginUser(email, password);
+      }
+
+      if (result.success) {
+        toast.success(
+          state === "Sign Up" ? "Đăng ký thành công!" : "Đăng nhập thành công!",
+        );
+        navigate("/");
+      } else {
+        toast.error(result.message || "Có lỗi xảy ra!");
+      }
+    } catch (_error) {
+      toast.error("Có lỗi xảy ra!");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -79,9 +110,14 @@ const Login = () => {
         {/* Nút submit form */}
         <button
           className="bg-primary my-2 py-2 rounded-md w-full text-white text-base"
+          disabled={isLoading}
           type="submit"
         >
-          {state === "Sign Up" ? "Tạo tài khoản" : "Đăng nhập"}
+          {isLoading
+            ? "Đang xử lý..."
+            : state === "Sign Up"
+              ? "Tạo tài khoản"
+              : "Đăng nhập"}
         </button>
 
         {/* Link chuyển đổi giữa đăng ký và đăng nhập */}
