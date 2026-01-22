@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useAppContext } from "../context/AppContext";
+import { useAppContext } from "../context/useAppContext";
 
 /**
  * Component Login - Trang đăng nhập và đăng ký
@@ -47,7 +47,7 @@ const Login = () => {
       } else {
         toast.error(result.message || "Có lỗi xảy ra!");
       }
-    } catch (_error) {
+    } catch {
       toast.error("Có lỗi xảy ra!");
     } finally {
       setIsLoading(false);

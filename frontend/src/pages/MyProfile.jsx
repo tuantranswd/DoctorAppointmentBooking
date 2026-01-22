@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { assets } from "../assets/assets_frontend/assets";
-import { useAppContext } from "../context/AppContext";
+import { useAppContext } from "../context/useAppContext";
 
 /**
  * Component hiển thị và chỉnh sửa thông tin cá nhân của người dùng

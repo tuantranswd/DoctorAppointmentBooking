@@ -6,6 +6,10 @@ import {
   changeAvailability,
   loginAdmin,
 } from "../controllers/adminController.js";
+import {
+  cancelAppointmentByAdmin,
+  getAllAppointments,
+} from "../controllers/appointmentController.js";
 import authAdmin from "../middleware/authAdmin.js";
 
 const adminRouter = express.Router();
@@ -31,5 +35,11 @@ adminRouter.get("/doctors", authAdmin, allDoctors);
 
 // Route thay đổi trạng thái available của bác sĩ (cần xác thực Admin)
 adminRouter.post("/change-availability", authAdmin, changeAvailability);
+
+// Route lấy tất cả lịch hẹn (cần xác thực Admin)
+adminRouter.get("/appointments", authAdmin, getAllAppointments);
+
+// Route hủy lịch hẹn cưỡng bách (cần xác thực Admin)
+adminRouter.post("/cancel-appointment", authAdmin, cancelAppointmentByAdmin);
 
 export default adminRouter;

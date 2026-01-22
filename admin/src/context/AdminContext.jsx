@@ -156,7 +156,6 @@ export const AdminContextProvider = ({ children }) => {
 
   /**
    * Lấy danh sách cuộc hẹn (Appointments)
-   * Lưu ý: API này có thể chưa được implement ở backend
    * @param {Object} filters - Bộ lọc (tùy chọn)
    * @returns {Promise<Object>} Danh sách cuộc hẹn (success, appointments)
    */
@@ -197,17 +196,57 @@ export const AdminContextProvider = ({ children }) => {
   );
 
   /**
+   * Hủy lịch hẹn bởi Admin
+   * @param {string} appointmentId - ID của lịch hẹn cần hủy
+   * @returns {Promise<Object>} Kết quả hủy lịch hẹn (success, message)
+   */
+  const cancelAppointmentByAdmin = useCallback(
+    async (appointmentId) => {
+      try {
+        // Kiểm tra token có tồn tại không
+        if (!adminToken) {
+          return {
+            message: "Vui lòng đăng nhập để thực hiện thao tác này",
+            success: false,
+          };
+        }
+
+        const response = await fetch(`${API_BASE_URL}/cancel-appointment`, {
+          body: JSON.stringify({ appointmentId }),
+          headers: {
+            Authorization: `Bearer ${adminToken}`,
+            "Content-Type": "application/json",
+          },
+          method: "POST",
+        });
+
+        const data = await response.json();
+        return data;
+      } catch (error) {
+        console.error("Lỗi khi hủy lịch hẹn:", error);
+        return {
+          message: "Đã xảy ra lỗi khi kết nối đến server",
+          success: false,
+        };
+      }
+    },
+    [adminToken],
+  );
+
+  /**
    * Giá trị Context bao gồm:
    * - adminToken: Token xác thực Admin hiện tại
    * - loginAdmin: Hàm đăng nhập Admin
    * - addDoctor: Hàm thêm bác sĩ mới
    * - getAppointments: Hàm lấy danh sách cuộc hẹn
+   * - cancelAppointmentByAdmin: Hàm hủy lịch hẹn bởi Admin
    * - removeToken: Hàm đăng xuất (xóa token)
    * - isAuthenticated: Trạng thái đã đăng nhập hay chưa
    */
   const value = {
     addDoctor,
     adminToken,
+    cancelAppointmentByAdmin,
     getAppointments,
     isAuthenticated: !!adminToken,
     loginAdmin,

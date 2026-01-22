@@ -1,11 +1,5 @@
 import axios from "axios";
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { createContext, useCallback, useEffect, useState } from "react";
 import { specialityData } from "../assets/assets_frontend/assets";
 
 // Tạo instance Axios với baseURL từ biến môi trường
@@ -18,22 +12,6 @@ const axiosInstance = axios.create({
  * Bao gồm danh sách bác sĩ, chuyên khoa và hàm format tiền tệ
  */
 const AppContext = createContext();
-
-/**
- * Hook tùy chỉnh để sử dụng AppContext
- * Đảm bảo Context được sử dụng đúng cách và báo lỗi nếu dùng ngoài Provider
- * @returns {Object} Giá trị từ AppContext
- * @throws {Error} Nếu hook được gọi ngoài AppContextProvider
- */
-export const useAppContext = () => {
-  const context = useContext(AppContext);
-  if (!context) {
-    throw new Error(
-      "useAppContext phải được sử dụng bên trong AppContextProvider",
-    );
-  }
-  return context;
-};
 
 /**
  * Hàm format số tiền thành định dạng tiền Việt Nam (VND)
@@ -81,6 +59,7 @@ export const AppContextProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("token") || "");
   const [userData, setUserData] = useState({});
   const [doctors, setDoctors] = useState([]);
+  const [myAppointments, setMyAppointments] = useState([]);
 
   // Hàm lấy danh sách bác sĩ từ API
   const getDoctorsData = useCallback(async () => {
@@ -191,6 +170,70 @@ export const AppContextProvider = ({ children }) => {
     }
   };
 
+  // Hàm đặt lịch hẹn
+  const bookAppointment = async (docId, slotDate, slotTime) => {
+    try {
+      const { data } = await axiosInstance.post("/api/user/book-appointment", {
+        docId,
+        slotDate,
+        slotTime,
+      });
+      if (data.success) {
+        return { success: true };
+      } else {
+        return { message: data.message, success: false };
+      }
+    } catch (error) {
+      console.error("Lỗi khi đặt lịch hẹn:", error);
+      return {
+        message: error.response?.data?.message || "Lỗi không xác định",
+        success: false,
+      };
+    }
+  };
+
+  // Hàm lấy danh sách lịch hẹn của tôi
+  const getMyAppointments = async () => {
+    try {
+      const { data } = await axiosInstance.get("/api/user/my-appointments");
+      if (data.success) {
+        setMyAppointments(data.appointments);
+        return { success: true };
+      } else {
+        return { message: data.message, success: false };
+      }
+    } catch (error) {
+      console.error("Lỗi khi lấy danh sách lịch hẹn:", error);
+      return {
+        message: error.response?.data?.message || "Lỗi không xác định",
+        success: false,
+      };
+    }
+  };
+
+  // Hàm hủy lịch hẹn
+  const cancelAppointment = async (appointmentId) => {
+    try {
+      const { data } = await axiosInstance.post(
+        "/api/user/cancel-appointment",
+        {
+          appointmentId,
+        },
+      );
+      if (data.success) {
+        return { success: true };
+      } else {
+        return { message: data.message, success: false };
+      }
+    } catch (error) {
+      console.error("Lỗi khi hủy lịch hẹn:", error);
+      return {
+        message: error.response?.data?.message || "Lỗi không xác định",
+        success: false,
+      };
+    }
+  };
+
   // Cấu hình Axios interceptor để tự động thêm header Authorization
   useEffect(() => {
     const interceptor = axiosInstance.interceptors.request.use(
@@ -212,7 +255,11 @@ export const AppContextProvider = ({ children }) => {
 
   // Gọi getDoctorsData khi component mount
   useEffect(() => {
-    getDoctorsData();
+    // Sử dụng async function để tránh gọi setState đồng bộ trong effect
+    const fetchDoctors = async () => {
+      await getDoctorsData();
+    };
+    fetchDoctors();
   }, [getDoctorsData]);
 
   /**
@@ -223,21 +270,29 @@ export const AppContextProvider = ({ children }) => {
    * - formatDate: Hàm format ngày tháng tiếng Việt
    * - token: JWT token
    * - userData: Thông tin người dùng hiện tại
+   * - myAppointments: Danh sách lịch hẹn của người dùng
    * - getDoctorsData: Hàm lấy danh sách bác sĩ
    * - signupUser: Hàm đăng ký
    * - loginUser: Hàm đăng nhập
    * - logoutUser: Hàm đăng xuất
    * - getUserProfile: Hàm lấy hồ sơ
    * - updateUserProfile: Hàm cập nhật hồ sơ
+   * - bookAppointment: Hàm đặt lịch hẹn
+   * - getMyAppointments: Hàm lấy danh sách lịch hẹn
+   * - cancelAppointment: Hàm hủy lịch hẹn
    */
   const value = {
+    bookAppointment,
+    cancelAppointment,
     doctors,
     formatCurrency,
     formatDate,
     getDoctorsData,
+    getMyAppointments,
     getUserProfile,
     loginUser,
     logoutUser,
+    myAppointments,
     signupUser,
     specialityData,
     token,

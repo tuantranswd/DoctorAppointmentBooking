@@ -2,6 +2,11 @@ import express from "express";
 import multer from "multer";
 import { allDoctors } from "../controllers/adminController.js";
 import {
+  bookAppointment,
+  cancelAppointment,
+  getMyAppointments,
+} from "../controllers/appointmentController.js";
+import {
   getProfile,
   loginUser,
   signupUser,
@@ -39,5 +44,14 @@ userRouter.post(
   upload.single("image"),
   updateProfile,
 );
+
+// Route đặt lịch hẹn (protected, authUser)
+userRouter.post("/book-appointment", authUser, bookAppointment);
+
+// Route lấy danh sách lịch hẹn của tôi (protected, authUser)
+userRouter.get("/my-appointments", authUser, getMyAppointments);
+
+// Route hủy lịch hẹn (protected, authUser)
+userRouter.post("/cancel-appointment", authUser, cancelAppointment);
 
 export default userRouter;
