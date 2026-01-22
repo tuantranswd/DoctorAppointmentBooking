@@ -4,6 +4,7 @@ import "dotenv/config"; // Tự động nạp các biến môi trường từ fi
 import connectCloudinary from "./config/cloudinary.js";
 import connectDB from "./config/mongodb.js";
 import adminRouter from "./routes/adminRoute.js";
+import userRouter from "./routes/userRoute.js";
 import createDefaultAdmin from "./scripts/createAdmin.js";
 import seedDoctors from "./scripts/seedDoctors.js";
 
@@ -28,6 +29,9 @@ app.get("/", (_req, res) => {
 
 // Admin Routes
 app.use("/api/admin", adminRouter);
+
+// User Routes
+app.use("/api/user", userRouter);
 
 // Khởi động server và lắng nghe các yêu cầu
 app.listen(port, () => {
